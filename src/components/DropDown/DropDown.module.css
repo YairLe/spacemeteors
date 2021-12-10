@@ -1,9 +1,12 @@
 .selector {
   font-size: 0.9rem;
-  padding: 0.5rem 0.2rem 0.5rem 0.2rem;
+  border-width: 0;
+  width: 15rem;
+  border-color: transparent;
 }
 
 .label {
   font-size: 1rem;
   padding-right: 0.5rem;
+  width: 0.5rem;
 }

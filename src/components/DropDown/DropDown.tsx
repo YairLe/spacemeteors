@@ -7,10 +7,12 @@ interface IProps {
   selectorName: string;
   optionsList: string[];
   onHandleSelectorChange: React.ChangeEventHandler<HTMLSelectElement>;
+  selectorValue: string;
 }
 
 const DropDown: React.FC<IProps> = (props: IProps) => {
   const {
+    selectorValue,
     labelName,
     labelAndSelectorFor,
     selectorName,
@@ -30,6 +32,7 @@ const DropDown: React.FC<IProps> = (props: IProps) => {
         name={selectorName}
         id={labelAndSelectorFor}
         onChange={onHandleSelectorChange}
+        value={selectorValue}
       >
         <option value="">{defaultOption}</option>
 
