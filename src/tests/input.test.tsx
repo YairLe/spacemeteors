@@ -1,6 +1,6 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import Input from "../components/input/Input";
+import Input from "../components/Input/Input";
 
 describe("Testing how input works", () => {
   test("render any input", () => {
