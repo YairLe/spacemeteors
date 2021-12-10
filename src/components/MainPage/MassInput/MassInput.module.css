@@ -1,0 +1,16 @@
+.massInputStyle {
+  font-size: 0.9rem;
+  width: 15rem;
+  border-color: transparent;
+  height: 1rem;
+  padding: 0;
+}
+
+.labelStyle {
+  font-size: 1rem;
+  padding-right: 0.5rem;
+}
+
+.inputInvalidStyle {
+  background-color: #c78890;
+}

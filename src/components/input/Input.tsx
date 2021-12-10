@@ -7,13 +7,10 @@ interface IProps {
     HTMLInputElement
   >;
   labelStyle?: string;
-  inputInvalid: boolean;
-  inputInvalidText: string;
 }
 
 const Input: React.FC<IProps> = (props: IProps) => {
-  const { label, inputProp, labelStyle, inputInvalid, inputInvalidText } =
-    props;
+  const { label, inputProp, labelStyle } = props;
 
   return (
     <React.Fragment>
@@ -21,10 +18,7 @@ const Input: React.FC<IProps> = (props: IProps) => {
         {label}
       </label>
 
-      <input
-        placeholder={inputInvalid ? inputInvalidText : ""}
-        {...inputProp}
-      />
+      <input {...inputProp} />
     </React.Fragment>
   );
 };
