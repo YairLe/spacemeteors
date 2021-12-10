@@ -1,5 +1,5 @@
 export interface IMeteorObject {
-  [x: string]: string;
+  [x: string]: any;
 }
 
 export interface IMeteorList {
