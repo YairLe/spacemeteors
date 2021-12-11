@@ -6,6 +6,7 @@ import styles from "./MassInput.module.css";
 
 const MassInput: React.FC = () => {
   const { meteorList, setMeteorList } = useContext(MeteorListContext);
+
   const validateInput = (value: string) => {
     return +value >= 0;
   };
@@ -33,12 +34,10 @@ const MassInput: React.FC = () => {
       validateInput(meteorList.currentMass) &&
       meteorList.currentMass !== ""
     ) {
-      const resetMassValue = () => {};
       const newMeteorListObject = adjustedSelectedMass(
         meteorList.currentMass,
         meteorList.basedOnYear,
-        meteorList.currentYear,
-        resetMassValue
+        meteorList.currentYear
       );
       if (newMeteorListObject) {
         setMeteorList(newMeteorListObject);
