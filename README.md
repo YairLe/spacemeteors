@@ -1,4 +1,4 @@
-# spaceMeteors App
+# SpaceMeteors App
 
 spaceMeteors is an app to help users to investigate [NASA's meteors](https://data.nasa.gov/resource/y77d-th95.json) dataset.
 
