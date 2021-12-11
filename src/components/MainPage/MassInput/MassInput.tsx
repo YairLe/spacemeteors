@@ -1,55 +1,55 @@
 import React, { useContext, useEffect } from "react";
 import { MeteorListContext } from "../../../context/MeteorListContext";
 import { adjustedSelectedMass } from "../../../helpers/helpers";
-import useInput from "../../../hooks/use-input";
 import Input from "../../Input/Input";
 import styles from "./MassInput.module.css";
 
 const MassInput: React.FC = () => {
   const { meteorList, setMeteorList } = useContext(MeteorListContext);
+  const validateInput = (value: string) => {
+    return +value >= 0;
+  };
 
-  const {
-    value: massValue,
-    isValid,
-    notifyInvalidValue,
-    inputSettingsChangeHandler,
-    inputBlur,
-    resetInputSettings: resetMassValue,
-  } = useInput((value: string) => +value >= 0);
+  const inputSettingsChangeHandler: React.ChangeEventHandler<HTMLInputElement> =
+    (event) => {
+      const value = event.target.value;
+      setMeteorList({ ...meteorList, currentMass: value });
+    };
 
   const massInputProp = {
     type: "number",
     className: `${styles.massInputStyle} ${
-      notifyInvalidValue && styles.inputInvalidStyle
+      !validateInput(meteorList.currentMass) && styles.inputInvalidStyle
     }`,
     id: "massValue",
     name: "massValue",
-    value: massValue,
+    value: meteorList.currentMass,
     onChange: inputSettingsChangeHandler,
-    onBlur: inputBlur,
     min: 0,
   };
 
   useEffect(() => {
-    if (isValid && massValue) {
+    if (
+      validateInput(meteorList.currentMass) &&
+      meteorList.currentMass !== ""
+    ) {
+      const resetMassValue = () => {};
       const newMeteorListObject = adjustedSelectedMass(
-        massValue,
+        meteorList.currentMass,
         meteorList.basedOnYear,
         meteorList.currentYear,
-        meteorList.yearChangedFromMass
+        resetMassValue
       );
-
       if (newMeteorListObject) {
         setMeteorList(newMeteorListObject);
       }
     }
-  }, [massValue, isValid, meteorList]);
-
-  useEffect(() => {
-    if (!meteorList.yearChangedFromMass) {
-      resetMassValue();
-    }
-  }, [meteorList.yearChangedFromMass, meteorList.currentYear]);
+  }, [
+    meteorList.currentMass,
+    meteorList.basedOnYear,
+    meteorList.currentYear,
+    setMeteorList,
+  ]);
 
   return (
     <React.Fragment>
