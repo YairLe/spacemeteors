@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { IMeteorList } from "../interfaces/interfaces";
 
 interface IProps {
@@ -7,9 +7,9 @@ interface IProps {
 
 const initialMeteorList = {
   currentYear: "",
-  yearChangedFromMass: false,
   basedOnYear: [{}],
   basedOnMass: [{}],
+  currentMass: "",
 };
 
 const MeteorListContext = React.createContext({
@@ -21,9 +21,12 @@ const MeteorListProvider: React.FC<IProps> = (props: IProps) => {
   const { children } = props;
   const [meteorList, setMeteorList] = useState<IMeteorList>(initialMeteorList);
 
-  const changeMeteorList = (newMeteorList: IMeteorList) => {
-    setMeteorList(newMeteorList);
-  };
+  const changeMeteorList = useCallback(
+    (newMeteorList: IMeteorList) => {
+      setMeteorList(newMeteorList);
+    },
+    [setMeteorList]
+  );
 
   const values = {
     meteorList: meteorList,

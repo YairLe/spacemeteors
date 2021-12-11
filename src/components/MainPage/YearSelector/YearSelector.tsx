@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import { MeteorListContext } from "../../../context/MeteorListContext";
 import {
-  adjustedSelectedYear,
   meteorDateConverterToYear,
+  returnMeteorsFilteredByYear,
 } from "../../../helpers/helpers";
 import meteorData from "../../../meteorsdata.json";
 import DropDown from "../../DropDown/DropDown";
@@ -33,13 +33,13 @@ const YearSelector: React.FC = () => {
   const onHandleSelectorChange: React.ChangeEventHandler<HTMLSelectElement> = (
     event
   ) => {
-    const returnedMeteorData = adjustedSelectedYear(event.target.value);
+    const returnedMeteorData = returnMeteorsFilteredByYear(event.target.value);
 
     const meteorListObject = {
       basedOnYear: returnedMeteorData,
       basedOnMass: returnedMeteorData,
       currentYear: event.target.value,
-      yearChangedFromMass: false,
+      currentMass: "",
     };
     setMeteorList(meteorListObject);
   };
