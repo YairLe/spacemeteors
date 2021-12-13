@@ -1,47 +1,36 @@
 import React from "react";
 import styles from "./DropDown.module.css";
+import Input from "../Input/Input";
 
 interface IProps {
   labelName: string;
-  labelAndSelectorFor: string;
-  selectorName: string;
   optionsList: string[];
-  onHandleSelectorChange: React.ChangeEventHandler<HTMLSelectElement>;
-  selectorValue: string;
+  inputProp?: React.DetailedHTMLProps<
+  React.InputHTMLAttributes<HTMLInputElement>,
+  HTMLInputElement
+>;
 }
 
 const DropDown: React.FC<IProps> = (props: IProps) => {
   const {
-    selectorValue,
     labelName,
-    labelAndSelectorFor,
-    selectorName,
     optionsList,
-    onHandleSelectorChange,
+    inputProp
   } = props;
-
-  const defaultOption = "-- Please choose an option --";
 
   return (
     <React.Fragment>
-      <label className={styles.label} htmlFor={labelAndSelectorFor}>
-        {labelName}
-      </label>
-      <select
+      <Input label={labelName} labelStyle={styles.label} inputProp={inputProp}/>
+      <datalist
         className={styles.selector}
-        name={selectorName}
-        id={labelAndSelectorFor}
-        onChange={onHandleSelectorChange}
-        value={selectorValue}
+        id={inputProp?.list}
       >
-        <option value="">{defaultOption}</option>
-
         {optionsList.map((optionValue) => (
           <option key={optionValue} value={optionValue}>
             {optionValue}
           </option>
         ))}
-      </select>
+      </datalist>
     </React.Fragment>
   );
 };

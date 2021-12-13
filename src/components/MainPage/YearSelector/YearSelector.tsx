@@ -6,6 +6,7 @@ import {
 } from "../../../helpers/helpers";
 import meteorData from "../../../meteorsdata.json";
 import DropDown from "../../DropDown/DropDown";
+import styles from './YearSelector.module.css'
 
 const YearSelector: React.FC = () => {
   const [yearsList, setYearsList] = useState<string[]>([]);
@@ -30,7 +31,7 @@ const YearSelector: React.FC = () => {
     return sortedMeteorYearsList;
   };
 
-  const onHandleSelectorChange: React.ChangeEventHandler<HTMLSelectElement> = (
+  const onHandleSelectorChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
     const returnedMeteorData = returnMeteorsFilteredByYear(event.target.value);
@@ -44,14 +45,24 @@ const YearSelector: React.FC = () => {
     setMeteorList(meteorListObject);
   };
 
+
+  const yearSelectorInputProp = {
+    type: "number",
+    className: styles.yearSelectorInputStyle,
+    id: "yearSelector",
+    name: "yearSelector",
+    list:"year-select",
+    value: meteorList.currentYear,
+    onChange: onHandleSelectorChange,
+    min: 0,
+    placeHolder:"-- Please choose an option --",
+  };
+
   return (
     <DropDown
       labelName={"Select a year:"}
-      labelAndSelectorFor={"year-select"}
-      selectorName={"yearSelector"}
       optionsList={yearsList}
-      onHandleSelectorChange={onHandleSelectorChange}
-      selectorValue={meteorList.currentYear}
+      inputProp={yearSelectorInputProp}
     />
   );
 };
