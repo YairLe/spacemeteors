@@ -1,10 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Input from "../components/Input/Input";
-
+import React from 'react'
 describe("Testing how input works", () => {
   test("render any input", () => {
-    render(<Input label="" inputInvalid={false} inputInvalidText="" />);
+    render(<Input label=""  />);
 
     const inputElement = screen.getByRole("textbox");
 
