@@ -8,6 +8,8 @@ import styles from "./MainPage.module.css";
 const MainPage: React.FC = () => {
   const { meteorList } = useContext(MeteorListContext);
 
+const canShowMassFilter=()=>(meteorList.currentYear&&meteorList.basedOnMass.length>0)
+
   return (
     <React.Fragment>
       <div className={`${styles.div} ${styles.divBasedOnWidth}`}>
@@ -15,7 +17,7 @@ const MainPage: React.FC = () => {
           <YearSelector />
         </div>
         <div className={styles.selectorsDiv}>
-          {meteorList.currentYear !== "" && <MassInput />}
+          { canShowMassFilter()&& <MassInput />}
         </div>
       </div>
       <MeteorsView />
