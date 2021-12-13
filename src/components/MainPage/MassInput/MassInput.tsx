@@ -21,7 +21,7 @@ const MassInput: React.FC = () => {
     type: "number",
     className: `${styles.massInputStyle} ${
       !validateInput(meteorList.currentMass) && styles.inputInvalidStyle
-    }`,
+      }`,
     id: "massValue",
     name: "massValue",
     value: meteorList.currentMass,
@@ -37,7 +37,8 @@ const MassInput: React.FC = () => {
       const newMeteorListObject = adjustedSelectedMass(
         meteorList.currentMass,
         meteorList.basedOnYear,
-        meteorList.currentYear
+        meteorList.currentYear,
+        meteorList.allMeteors
       );
       if (newMeteorListObject) {
         setMeteorList(newMeteorListObject);
@@ -47,6 +48,7 @@ const MassInput: React.FC = () => {
     meteorList.currentMass,
     meteorList.basedOnYear,
     meteorList.currentYear,
+    meteorList.allMeteors,
     setMeteorList,
   ]);
 
