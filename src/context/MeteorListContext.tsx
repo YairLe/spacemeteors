@@ -1,11 +1,11 @@
-import React, { useCallback, useState } from "react";
-import { IMeteorList } from "../interfaces/interfaces";
-
+import React, { useCallback, useEffect, useState } from "react";
+import { IMeteorList, IMeteorsListWithoutAllMeteors } from "../interfaces/interfaces";
 interface IProps {
   children: React.ReactNode;
 }
 
 const initialMeteorList = {
+  allMeteors: [{}],
   currentYear: "",
   basedOnYear: [{}],
   basedOnMass: [{}],
@@ -14,7 +14,7 @@ const initialMeteorList = {
 
 const MeteorListContext = React.createContext({
   meteorList: initialMeteorList,
-  setMeteorList: (newMeteorList: IMeteorList) => {},
+  setMeteorList: (newMeteorList: IMeteorsListWithoutAllMeteors) => { },
 });
 
 const MeteorListProvider: React.FC<IProps> = (props: IProps) => {
@@ -22,11 +22,30 @@ const MeteorListProvider: React.FC<IProps> = (props: IProps) => {
   const [meteorList, setMeteorList] = useState<IMeteorList>(initialMeteorList);
 
   const changeMeteorList = useCallback(
-    (newMeteorList: IMeteorList) => {
-      setMeteorList(newMeteorList);
+    (newMeteorList: IMeteorsListWithoutAllMeteors) => {
+      setMeteorList((prevState: IMeteorList) => {
+        return { ...newMeteorList, allMeteors: prevState.allMeteors }
+      }
+      );
     },
     [setMeteorList]
   );
+
+  useEffect(() => {
+    const fetchMeteorsData = async () => {
+      try {
+        const response = await fetch('meteorsdata.json')
+        const fetchedMeteorData = await response.json()
+        setMeteorList((prevState: IMeteorList) => {
+          return { ...prevState, allMeteors: fetchedMeteorData }
+        })
+      }
+      catch (err) {
+        console.log('an error occured while fetching meteors data', err);
+      }
+    }
+    fetchMeteorsData()
+  }, [])
 
   const values = {
     meteorList: meteorList,
@@ -41,3 +60,4 @@ const MeteorListProvider: React.FC<IProps> = (props: IProps) => {
 };
 
 export { MeteorListProvider, MeteorListContext };
+
