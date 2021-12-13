@@ -4,9 +4,9 @@ import {
   meteorDateConverterToYear,
   returnMeteorsFilteredByYear,
 } from "../../../helpers/helpers";
-import meteorData from "../../../meteorsdata.json";
 import DropDown from "../../DropDown/DropDown";
 import styles from './YearSelector.module.css'
+import { IMeteorObject } from "../../../interfaces/interfaces";
 
 const YearSelector: React.FC = () => {
   const [yearsList, setYearsList] = useState<string[]>([]);
@@ -14,13 +14,12 @@ const YearSelector: React.FC = () => {
 
   useEffect(() => {
     setYearsList(returnAllExistMeteorYears());
-  }, []);
+  }, [meteorList.allMeteors]);
 
   const returnAllExistMeteorYears = () => {
     const meteorYearsList: string[] = [];
-    meteorData.forEach((meteorObject) => {
+    meteorList.allMeteors.forEach((meteorObject: IMeteorObject) => {
       const meteorDate = meteorDateConverterToYear(meteorObject.year as string);
-
       if (!meteorYearsList.includes(meteorDate) && meteorDate !== "NaN") {
         meteorYearsList.push(meteorDate);
       }
@@ -34,7 +33,7 @@ const YearSelector: React.FC = () => {
   const onHandleSelectorChange: React.ChangeEventHandler<HTMLInputElement> = (
     event
   ) => {
-    const returnedMeteorData = returnMeteorsFilteredByYear(event.target.value);
+    const returnedMeteorData = returnMeteorsFilteredByYear(event.target.value, meteorList.allMeteors);
 
     const meteorListObject = {
       basedOnYear: returnedMeteorData,
@@ -51,11 +50,11 @@ const YearSelector: React.FC = () => {
     className: styles.yearSelectorInputStyle,
     id: "yearSelector",
     name: "yearSelector",
-    list:"year-select",
+    list: "year-select",
     value: meteorList.currentYear,
     onChange: onHandleSelectorChange,
     min: 0,
-    placeHolder:"-- Please choose an option --",
+    placeholder: "-- Please choose an option --",
   };
 
   return (

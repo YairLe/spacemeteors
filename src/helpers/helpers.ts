@@ -1,12 +1,11 @@
-import { IMeteorList, IMeteorObject } from "../interfaces/interfaces";
-import meteorData from "../meteorsdata.json";
+import { IMeteorObject, IMeteorsListWithoutAllMeteors } from "../interfaces/interfaces";
 
 export const meteorDateConverterToYear = (meteorDate: string) => {
   return "" + new Date(meteorDate).getFullYear();
 };
 
-export const returnMeteorsFilteredByYear = (pickedYear: string) => {
-  const filteredMeteorsByYear = meteorData.filter((meteorObject) => {
+export const returnMeteorsFilteredByYear = (pickedYear: string, allMeteorsData: IMeteorObject[]) => {
+  const filteredMeteorsByYear = allMeteorsData.filter((meteorObject) => {
     const meteorDate = meteorDateConverterToYear(meteorObject.year as string);
     return meteorDate === pickedYear;
   });
@@ -25,8 +24,8 @@ export const returnMeteorsFilteredByMass = (
   return filteredMeteorsByMass;
 };
 
-export const returnFirstMeteorsForMass = (massValue: string) => {
-  const foundNewMeteorForMass = meteorData.find((meteorObject) => {
+export const returnFirstMeteorsForMass = (massValue: string, allMeteorsData: IMeteorObject[]) => {
+  const foundNewMeteorForMass = allMeteorsData.find((meteorObject: any) => {
     return meteorObject.mass && +meteorObject.mass > +massValue;
   });
   return foundNewMeteorForMass;
@@ -35,7 +34,8 @@ export const returnFirstMeteorsForMass = (massValue: string) => {
 export const adjustedSelectedMass = (
   massValue: string,
   meteorListByYear: IMeteorObject[],
-  meteorYear: string
+  meteorYear: string,
+  allMeteorsData: IMeteorObject[]
 ) => {
   const filteredMeteorsByMass = returnMeteorsFilteredByMass(
     meteorListByYear,
@@ -55,10 +55,10 @@ export const adjustedSelectedMass = (
 
   alert(filteredMassNotFoundMessage);
 
-  const newFirstMeteorsForMass = returnFirstMeteorsForMass(massValue);
+  const newFirstMeteorsForMass = returnFirstMeteorsForMass(massValue, allMeteorsData);
 
   if (newFirstMeteorsForMass) {
-    return newMeteorYearAdjustments(newFirstMeteorsForMass);
+    return newMeteorYearAdjustments(newFirstMeteorsForMass, allMeteorsData);
   }
 
   const newFilteredMassNotFoundMessage = `unable to find any mass (mass:${massValue}) in any year that fits the criteria, try to adjust the mass`;
@@ -68,11 +68,11 @@ export const adjustedSelectedMass = (
   return;
 };
 
-export const newMeteorYearAdjustments = (foundMeteor: IMeteorObject) => {
+export const newMeteorYearAdjustments = (foundMeteor: IMeteorObject, allMeteorsData: IMeteorObject[]) => {
   const currentYear = meteorDateConverterToYear(foundMeteor.year as string);
-  const newMeteorsFromDate = returnMeteorsFilteredByYear(currentYear);
+  const newMeteorsFromDate = returnMeteorsFilteredByYear(currentYear, allMeteorsData);
 
-  const meteorListObject: IMeteorList = {
+  const meteorListObject: IMeteorsListWithoutAllMeteors = {
     basedOnYear: newMeteorsFromDate,
     basedOnMass: newMeteorsFromDate,
     currentYear: currentYear,
